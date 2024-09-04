@@ -1,0 +1,19 @@
+<%#= turbo_stream_from AN IDENTIFIER OR RADIO FREQUENCY %>
+<%= turbo_stream_from "bookings_#{@booking.id}_messages" %>
+
+<div class="container chat">
+  <h1>Your booking for <%= @booking.restaurant.name %></h1>
+
+
+  <div id="messages" class="messages">
+    <% @booking.messages.each do |message| %>
+      <%= render 'messages/message', message: message %>
+    <% end %>
+  </div>
+
+  <%= simple_form_for([@booking, @message], html: { class: 'd-flex' }) do |f| %>
+    <% other_user = current_user == @booking.restaurant.user ? @booking.user : @booking.restaurant.user %>
+    <%= f.input :content, wrapper_html: { class: 'flex-grow-1' }, label: false, placeholder: "Write your message to #{other_user.nickname}" %>
+    <%= f.submit 'Send', class: 'btn btn-primary mb-3' %>
+  <% end %>
+</div>

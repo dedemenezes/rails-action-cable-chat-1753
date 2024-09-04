@@ -1,0 +1,26 @@
+<div class="container">
+    <h1 class="text-center"><%= @restaurant.name %></h1>
+
+  <h2>Bookings as Client</h2>
+  <ul>
+    <% @current_user_bookings.each do |booking| %>
+      <li><%= link_to booking.date, booking_path(booking) %></li>
+    <% end %>
+  </ul>
+
+  <% if @restaurant.user == current_user %>
+    <h2>Booking for my restaurant</h2>
+    <ul>
+      <% @restaurant.bookings.each do |booking| %>
+        <li><%= link_to booking.date, booking_path(booking) %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <h2>Book for <%= @restaurant.name %></h2>
+  <%= simple_form_for([@restaurant, @booking]) do |f| %>
+    <%= f.input :date %>
+    <%= f.submit %>
+  <% end %>
+
+</div>
